@@ -10,12 +10,14 @@ import NextLink from "next/link";
 import React from "react";
 import useStyles from "../utils/styles";
 
-function Layout({ children }) {
+function Layout({ title, children }) {
   const classes = useStyles();
   return (
     <div>
       <Head>
-        <title>Ecommerce Portal</title>
+        <title>
+          {title ? `${title} - Next Ecommerce` : "Next - Ecommerce"}
+        </title>
       </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
