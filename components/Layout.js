@@ -10,7 +10,7 @@ import NextLink from "next/link";
 import React from "react";
 import useStyles from "../utils/styles";
 
-function Layout({ title, children }) {
+function Layout({ title, description, children }) {
   const classes = useStyles();
   return (
     <div>
@@ -18,6 +18,7 @@ function Layout({ title, children }) {
         <title>
           {title ? `${title} - Next Ecommerce` : "Next - Ecommerce"}
         </title>
+        {description && <meta name="descrption" content={description}></meta>}
       </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
