@@ -10,10 +10,12 @@ import {
 } from "@material-ui/core";
 import Head from "next/head";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
+import { Store } from "../utils/store";
 import useStyles from "../utils/styles";
 
 function Layout({ title, description, children }) {
+  const { state, dispatch } = useContext(Store);
   const theme = createMuiTheme({
     typography: {
       h1: {
