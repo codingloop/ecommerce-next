@@ -9,6 +9,7 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
+import Cookies from "js-cookie";
 import Head from "next/head";
 import NextLink from "next/link";
 import React, { useContext } from "react";
@@ -44,6 +45,8 @@ function Layout({ title, description, children }) {
   const classes = useStyles();
   const darkModeChangeHandler = () => {
     dispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
+    const newDarkMode = !darkMode;
+    Cookies.set("darkMode", newDarkMode ? "ON" : "OFF");
   };
   return (
     <div>
