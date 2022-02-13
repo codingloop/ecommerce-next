@@ -4,6 +4,7 @@ import {
   createMuiTheme,
   CssBaseline,
   Link,
+  Switch,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -16,6 +17,7 @@ import useStyles from "../utils/styles";
 
 function Layout({ title, description, children }) {
   const { state, dispatch } = useContext(Store);
+  const { darkMode } = state;
   const theme = createMuiTheme({
     typography: {
       h1: {
@@ -30,7 +32,7 @@ function Layout({ title, description, children }) {
       },
     },
     palette: {
-      type: "light",
+      type: darkMode ? "dark" : "light",
       primary: {
         main: "#f0c000",
       },
@@ -40,6 +42,9 @@ function Layout({ title, description, children }) {
     },
   });
   const classes = useStyles();
+  const darkModeChangeHandler = () => {
+    dispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
+  };
   return (
     <div>
       <Head>
@@ -61,6 +66,10 @@ function Layout({ title, description, children }) {
             </NextLink>
             <div className={classes.grow}></div>
             <div>
+              <Switch
+                checked={darkMode}
+                onChange={darkModeChangeHandler}
+              ></Switch>
               <NextLink href="/cart" passHref>
                 <Link>Cart</Link>
               </NextLink>
