@@ -77,7 +77,12 @@ function Layout({ title, description, children }) {
               <NextLink href="/cart" passHref>
                 <Link>
                   {cart.cartItems.length > 0 ? (
-                    <Badge badgeContent={cart.cartItems.length}>Cart</Badge>
+                    <Badge
+                      color="secondary"
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
                   ) : (
                     "Cart"
                   )}
