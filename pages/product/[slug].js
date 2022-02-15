@@ -21,6 +21,9 @@ function ProductScren(props) {
   if (!product) {
     return <div>Product Not found</div>;
   }
+  const addToCartHandler = () => {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+  };
 
   return (
     <Layout title={product.name} description={product.description}>
@@ -92,7 +95,12 @@ function ProductScren(props) {
                 </Grid>
               </ListItem>
               <ListItem>
-                <Button fullWidth variant="contained" color="primary">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={addToCartHandler}
+                >
                   Add to Cart
                 </Button>
               </ListItem>
