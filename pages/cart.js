@@ -38,7 +38,7 @@ function CartScreen() {
         </div>
       ) : (
         <Grid container spacing={1}>
-          <Grid item md={9} xs={8}>
+          <Grid item md={9} xs={12}>
             <TableContainer>
               <Table>
                 <TableHead>
