@@ -20,6 +20,7 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/store";
 import NextLink from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 function CartScreen() {
   const { state } = useContext(Store);
@@ -117,4 +118,4 @@ function CartScreen() {
   );
 }
 
-export default CartScreen;
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
