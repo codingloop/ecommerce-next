@@ -53,7 +53,7 @@ function Layout({ title, description, children }) {
     <div>
       <Head>
         <title>
-          {title ? `${title} - Next Ecommerce` : "Next - Ecommerce"}
+          {title ? `${title} - Next Ecommerce` : "Next - Ecommerc Demo"}
         </title>
         {description && <meta name="descrption" content={description}></meta>}
       </Head>
