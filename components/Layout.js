@@ -100,7 +100,7 @@ function Layout({ title, description, children }) {
         </footer>
       </ThemeProvider>
     </div>
-  );
+  )
 }
 
 export default Layout;
