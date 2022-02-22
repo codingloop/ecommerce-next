@@ -123,7 +123,7 @@ function Login() {
           </ListItem>
           <ListItem>
             <Typography>
-              {"Don't have an account? &nbsp;"}
+              {"Don't have an account? "}
               <NextLink href={`/register?redirect=${redirect || "/"}`} passHref>
                 <Link>Register</Link>
               </NextLink>
