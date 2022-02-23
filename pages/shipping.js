@@ -12,7 +12,7 @@ import { Store } from "../utils/store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
-import CheckoutWizard from "../components/checkoutWizard";
+import CheckoutWizard from "../components/CheckoutWizard";
 
 function Shipping() {
   const {
@@ -29,7 +29,7 @@ function Shipping() {
     cart: { shippingAddress },
   } = state;
   useEffect(() => {
-    if (userInfo) {
+    if (!userInfo) {
       router.push("/login?redirect=/shipping");
     }
     setValue("fullName", shippingAddress.fullName);
