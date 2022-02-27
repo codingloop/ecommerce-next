@@ -122,7 +122,7 @@ function Layout({ title, description, children }) {
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
-                    onclose={loginMenuCloseHandler}
+                    onClose={loginMenuCloseHandler}
                   >
                     <MenuItem onClick={loginMenuCloseHandler}>Profile</MenuItem>
                     <MenuItem onClick={loginMenuCloseHandler}>
