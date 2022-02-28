@@ -81,7 +81,6 @@ function Order({ params }) {
       fetchOrder();
     }
   }, [order]);
-  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
 
   return (
     <Layout title={`Order ${orderId}`}>
