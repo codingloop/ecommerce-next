@@ -22,7 +22,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import useStyles from "../../utils/styles";
 import CheckoutWizard from "../../components/CheckoutWizard";
-import { useSnackbar } from "notistack";
 import { getError } from "../../utils/error";
 import axios from "axios";
 
@@ -31,9 +30,9 @@ function reducer(state, action) {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };
     case "FETCH_SUCCESS":
-      return { ...state, loading: false, order: action.pyload, error: "" };
+      return { ...state, loading: false, order: action.payload, error: "" };
     case "FETCH_FAIL":
-      return { ...state, loading: false, error: action.pyload };
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;
@@ -60,6 +59,10 @@ function Order({ params }) {
     taxPrice,
     shippingPrice,
     totalPrice,
+    isDelivered,
+    isPaid,
+    paidAt,
+    delivereAt,
   } = order;
 
   useEffect(() => {
@@ -70,7 +73,7 @@ function Order({ params }) {
       try {
         dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(`/api/orders/${orderId}`, {
-          headers: { authorization: `Bearer: ${userInfo.token}` },
+          headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
@@ -107,6 +110,10 @@ function Order({ params }) {
                   {shippingAddress.city}, {shippingAddress.postalCode},{" "}
                   {shippingAddress.country}
                 </ListItem>
+                <ListItem>
+                  Status:{" "}
+                  {isDelivered ? `delivered at ${delivereAt}` : "not delivered"}
+                </ListItem>
               </List>
             </Card>
             <Card className={classes.section}>
@@ -117,6 +124,9 @@ function Order({ params }) {
                   </Typography>
                 </ListItem>
                 <ListItem>{paymentMethod}</ListItem>
+                <ListItem>
+                  Status: {isPaid ? `paid at ${paidAt}` : "not paid"}
+                </ListItem>
               </List>
             </Card>
             <Card className={classes.section}>
