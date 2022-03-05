@@ -25,6 +25,7 @@ import CheckoutWizard from "../../components/CheckoutWizard";
 import { getError } from "../../utils/error";
 import axios from "axios";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useSnackbar } from "notistack";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -34,6 +35,12 @@ function reducer(state, action) {
       return { ...state, loading: false, order: action.payload, error: "" };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
+    case "PAY_REQUEST":
+      return { ...state, loadingPay: true };
+    case "PAY_SUCCESS":
+      return { ...state, loadingPay: false, successPay: true };
+    case "PAY_FAIL":
+      return { ...state, loadingPay: false, errorPay: action.payload };
 
     default:
       return state;
@@ -66,6 +73,7 @@ function Order({ params }) {
     paidAt,
     delivereAt,
   } = order;
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (!userInfo) {
@@ -98,6 +106,7 @@ function Order({ params }) {
         });
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
+      loadPaypalScript();
     }
   }, [order]);
 
@@ -109,6 +118,30 @@ function Order({ params }) {
       .then((orderId) => {
         return orderId;
       });
+  }
+
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async (details) => {
+      try {
+        dispatch({ type: "PAY_REQUEST" });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        dispatch({ type: "PAY_SUCCESS", payload: data });
+        enqueueSnackbar("Order is paid", { variant: "success" });
+      } catch (err) {
+        dispatch({ type: "PAY_FAIL", payload: getError(err) });
+        enqueueSnackbar(getError(err), { variant: "error" });
+      }
+    });
+  }
+
+  function onError(err) {
+    enqueueSnackbar(getError(err), { variant: "error" });
   }
 
   return (
@@ -265,11 +298,13 @@ function Order({ params }) {
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      <PayPalButtons
-                        createOrder={createorder}
-                        onApprove={onApprove}
-                        onError={onError}
-                      />
+                      <div className={classes.fullWidth}>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        />
+                      </div>
                     )}
                   </ListItem>
                 )}
