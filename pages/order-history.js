@@ -1,15 +1,22 @@
 import {
+  Button,
   Card,
   CircularProgress,
   Grid,
   List,
   ListItem,
+  Table,
+  TableBody,
+  TableCell,
   TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import React, { useContext, useEffect, useReducer } from "react";
 import Layout from "../components/Layout";
 import { getError } from "../utils/error";
@@ -77,7 +84,44 @@ function OrderHistory() {
                 ) : error ? (
                   <Typography className={classes.error}>{error}</Typography>
                 ) : (
-                  <TableContainer></TableContainer>
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>ID</TableCell>
+                          <TableCell>DATE</TableCell>
+                          <TableCell>TOTAL</TableCell>
+                          <TableCell>PAID</TableCell>
+                          <TableCell>DELIVERED</TableCell>
+                          <TableCell>ACTION</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {orders.map((order) => (
+                          <TableRow key={order._id}>
+                            <TableCell>{order._id.substring(20, 24)}</TableCell>
+                            <TableCell>{order.createAt}</TableCell>
+                            <TableCell>{order.totalPrice}</TableCell>
+                            <TableCell>
+                              {order.isPaid
+                                ? `paid at ${order.paidAt}`
+                                : "not paid"}
+                            </TableCell>
+                            <TableCell>
+                              {order.isDelivered
+                                ? `delivered at ${order.deliveredAt}`
+                                : "not delivered"}
+                            </TableCell>
+                            <TableCell>
+                              <NextLink href={`/order/${order._id}`}>
+                                <Button variant="contained">Details</Button>
+                              </NextLink>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
               </ListItem>
             </List>
