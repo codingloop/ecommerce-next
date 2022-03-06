@@ -5,6 +5,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -68,7 +69,20 @@ function OrderHistory() {
     <Layout title="Order History">
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}></Card>
+          <Card className={classes.section}>
+            <List>
+              <NextLink href="/profile" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="User Profile"></ListItemText>
+                </ListItem>
+              </NextLink>
+              <NextLink href="/order-history" passHref>
+                <ListItem selected button component="a">
+                  <ListItemText primary="Order History"></ListItemText>
+                </ListItem>
+              </NextLink>
+            </List>
+          </Card>
         </Grid>
         <Grid item md={9} xs={12}>
           <Card className={classes.section}>
